@@ -1,0 +1,57 @@
+name: Verify and publish NEAR 100
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Verify catalogue and source
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate catalogue selection and coordinates
+        run: python3 verify.py
+      - name: Check JavaScript syntax
+        run: node --check app.js
+      - name: Confirm dataset reproducibility
+        run: |
+          python3 build_catalog.py
+          git diff --exit-code -- stars.json
+      - name: Package only public web assets
+        run: |
+          mkdir -p _site
+          cp index.html app.js style.css stars.json icon.svg _site/
+          cp three.module.js three.core.js OrbitControls.js ibm-plex-mono.woff2 _site/
+          cp THREE-LICENSE.txt FONT-LICENSE.txt _site/
+      - name: Upload website artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    name: Publish GitHub Pages
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy verified artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
