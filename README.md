@@ -1,15 +1,15 @@
 # NEAR / 100
 
-Volevo esplorare le stelle vicine al Sole su una mappa 3D, partendo da dati reali. NEAR / 100 raccoglie il Sole e le 99 stelle più vicine presenti nel catalogo utilizzato.
+I wanted to explore the stars around the Sun on a 3D map using real astronomical data. NEAR / 100 brings together the Sun and the 99 nearest stars in the selected catalogue.
 
-[Esplora la mappa](https://retrophede.github.io/)
+[Explore the map](https://retrophede.github.io/)
 
-Trascina per ruotare la vista, usa lo scroll per avvicinarti e clicca su una stella per scoprirne i dati. Un secondo click chiude la scheda.
+Drag to rotate, scroll to zoom, and click a star to see its details. Click it again to close the card.
 
-L’ispirazione visiva viene da Gaia Mary e Project Hail Mary: spazio nero, tipografia essenziale e piano dell’eclittica come riferimento.
+The visual inspiration comes from Gaia Mary and Project Hail Mary: black space, minimal typography, and the ecliptic plane as a reference.
 
-## Dati
+## Data
 
-La selezione si basa su *The 10 parsec sample in the Gaia era* di Reylé et al., con aggiornamento del 2023: [articolo](https://doi.org/10.1051/0004-6361/202140985) · [catalogo CDS](https://cdsarc.cds.unistra.fr/ftp/J/A+A/650/A201/).
+The selection is based on *The 10 parsec sample in the Gaia era* by Reylé et al., with the 2023 update: [paper](https://doi.org/10.1051/0004-6361/202140985) · [CDS catalogue](https://cdsarc.cds.unistra.fr/ftp/J/A+A/650/A201/).
 
-Le stelle dei sistemi multipli sono contate singolarmente; pianeti e nane brune sono esclusi. Posizioni e distanze derivano dal catalogo, mentre dimensioni e colori dei punti sono indicativi.
+Stars in multiple systems are counted individually; planets and brown dwarfs are excluded. Positions and distances come from the catalogue, while point sizes and colours are illustrative.
