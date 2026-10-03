@@ -2,7 +2,7 @@
 
 I wanted to explore the stars around the Sun on a 3D map using real astronomical data. NEAR / 100 brings together the Sun and the 99 nearest stars in the selected catalogue.
 
-[Explore the map](https://retrophede.github.io/)
+[Explore the map](https://retrophede.github.io/near-100/)
 
 Drag to rotate, scroll to zoom, and click a star to see its details. Click it again to close the card.
 
