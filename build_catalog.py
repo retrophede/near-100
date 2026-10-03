@@ -1,5 +1,5 @@
 """Rebuild 100 entries from the archived CDS catalogue (2023-08-25). No invented measurements."""
-import gzip,json,math,hashlib
+import gzip,json,math,hashlib,sys
 from pathlib import Path
 root=Path(__file__).resolve().parent
 raw=gzip.decompress((root/'tablea1.dat.gz').read_bytes())
@@ -22,7 +22,18 @@ sun=dict(id='sun',system='sun',name='Sole',catalogName='Sun',kind='*',spectral='
 selected=[sun]+rows[:99]
 for i,r in enumerate(selected):r['rank']=i+1
 out={'meta':{'title':'The 10 parsec sample in the Gaia era','catalogue':'CDS J/A+A/650/A201','version':'2023-08-25','retrieved':'2026-10-03','source':'https://cdsarc.cds.unistra.fr/ftp/J/A+A/650/A201/','doi':'https://doi.org/10.1051/0004-6361/202140985','update':'https://arxiv.org/abs/2302.02810','sha256':hashlib.sha256(raw).hexdigest(),'selection':'99 entries of type *, LM, LM?, WD or WD? ordered by 1000/parallax, plus the Sun. Brown dwarfs and planets excluded. Question marks retained. Component stars counted separately.','frame':'Equatorial ICRS positions at each catalogue epoch, rotated to mean J2000 ecliptic axes using obliquity 23.439291111 deg. No epoch propagation or orbital simulation. Distances = 1000/parallax mas. Renderer axes: (ecliptic X, ecliptic Z, -ecliptic Y).','maxLy':selected[-1]['distanceLy'],'nextExcluded':{'name':rows[99]['name'],'distanceLy':rows[99]['distanceLy']}},'stars':selected}
-(root/'stars.json').write_text(json.dumps(out,ensure_ascii=False,indent=2))
+if '--check' in sys.argv:
+ snapshot=json.loads((root/'stars.json').read_text())
+ assert len(snapshot['stars'])==len(out['stars']), 'Catalogue size changed'
+ for saved,generated in zip(snapshot['stars'],out['stars']):
+  assert len(saved['position'])==3
+  assert all(math.isclose(a,b,rel_tol=0,abs_tol=1e-12) for a,b in zip(saved['position'],generated['position'])), 'Position changed beyond floating-point tolerance'
+  # libm implementations differ at their final bits; all other data must match exactly.
+  generated['position']=saved['position']
+ assert snapshot==out, 'Catalogue metadata or measurements changed'
+ print('Reproducibility check passed (position tolerance 1e-12 light-years)')
+else:
+ (root/'stars.json').write_text(json.dumps(out,ensure_ascii=False,indent=2))
 assert len(selected)==100 and len({r['id'] for r in selected})==100
 for r in selected: assert abs(math.sqrt(sum(v*v for v in r['position']))-r['distanceLy'])<1e-10
 print('100 entries; boundary:',selected[-1]['name'],round(selected[-1]['distanceLy'],3),'ly; next:',rows[99]['name'])
