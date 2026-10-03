@@ -25,9 +25,7 @@ jobs:
       - name: Check JavaScript syntax
         run: node --check app.js
       - name: Confirm dataset reproducibility
-        run: |
-          python3 build_catalog.py
-          git diff --exit-code -- stars.json
+        run: python3 build_catalog.py --check
       - name: Package only public web assets
         run: |
           mkdir -p _site
