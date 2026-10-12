@@ -4,7 +4,7 @@ from pathlib import Path
 p=Path(__file__).resolve().parent
 a=json.loads((p/'stars.json').read_text()); s=a['stars']
 assert len(s)==100 and len({x['id'] for x in s})==100
-assert s[0]['name']=='Sole' and s[0]['position']==[0,0,0]
+assert s[0]['name']=='Sun' and s[0]['position']==[0,0,0]
 assert all(x['kind'].rstrip('?') in ['*','LM','WD'] for x in s)
 assert [x['distancePc'] for x in s]==sorted(x['distancePc'] for x in s)
 raw=gzip.decompress((p/'tablea1.dat.gz').read_bytes()).decode().splitlines()

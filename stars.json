@@ -20,7 +20,7 @@
     {
       "id": "sun",
       "system": "sun",
-      "name": "Sole",
+      "name": "Sun",
       "catalogName": "Sun",
       "kind": "*",
       "spectral": "G2 V",
