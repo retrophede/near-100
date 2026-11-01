@@ -31,7 +31,8 @@ jobs:
           mkdir -p _site
           cp index.html app.js style.css stars.json icon.svg _site/
           cp three.module.js three.core.js OrbitControls.js ibm-plex-mono.woff2 _site/
-          cp THREE-LICENSE.txt FONT-LICENSE.txt _site/
+          cp THREE-LICENSE.txt FONT-LICENSE.txt DOTO-LICENSE.txt _site/
+          cp near-logo.svg doto.ttf _site/
       - name: Upload website artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v4
